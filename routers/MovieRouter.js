@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const verifyToken = require('../utils/authMiddleware');
 const AdminVerifyToken = require('../utils/AdminAuthMiddleware');
+const MovieModel = require('../models/MovieModel');
 
 
 

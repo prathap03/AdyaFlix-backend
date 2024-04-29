@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const verifyToken = require('../utils/authMiddleware');
 
-const User = require('../models/UserModel').UserModel;
-const Movie = require("../models/MovieModel").MovieModel
+const User = require('../models/UserModel');
+const Movie = require("../models/MovieModel");
 
 // Protected route
 router.get('/', verifyToken, (req, res) => {
