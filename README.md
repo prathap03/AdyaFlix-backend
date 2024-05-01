@@ -1,5 +1,5 @@
 AdyaFlix-backend is the backend for the movie ticket booking website AdyaFlix. The backend is developed in node.js using the express js framework and Axios to create REST API's with CORS option. The database provider,
-used here is mongodb atlas.
+used here is mongodb atlas. JWT has been utilized to maintain secure authentication and managaement of sessions. API routes are protected using the Authentication Middleware thus preventing unaithorized access.
 
 
 ![image](https://github.com/prathap03/AdyaFlix-backend/assets/72980112/49869fad-018f-4081-8f16-47940d723540)
