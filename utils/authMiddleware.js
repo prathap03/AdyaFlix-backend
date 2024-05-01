@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 function verifyToken(req, res, next) {
   const token = req.header("Authorization");
+  console.log(token);
   if (process.env.NODE_ENV !== "production") {
     require("dotenv").config();
   }

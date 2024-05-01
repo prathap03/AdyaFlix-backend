@@ -4,6 +4,7 @@ const app = express();
 
 const userRouter = require("./routers/UserRouter");
 const bookingRouter = require("./routers/BookingRouter");
+const movieRouter = require("./routers/MovieRouter");
 
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
@@ -13,9 +14,12 @@ const mongoose = require("mongoose");
 
 app.use(express.json());
 
-app.use(cors(
-    {origin:"*"}
-));
+if(process.env.NODE_ENV !== "production"){
+    app.use(cors(
+        {origin:"*"}
+    ));
+}
+
 
 
 app.get("/",(req,res)=>{
@@ -24,6 +28,7 @@ app.get("/",(req,res)=>{
 
 app.use("/user",userRouter);
 app.use("/booking",bookingRouter);
+app.use("/movie",movieRouter);
 
 app.listen(8000,()=>{
     try{

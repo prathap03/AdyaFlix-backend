@@ -4,6 +4,7 @@ const User = require("../models/UserModel").UserModel;
 const bcrypt = require("bcrypt");
 const jwt = require("../utils/middleware");
 
+
 router.post("/register", async (req, res) => {
   try {
     const { username, password, fullName, email, phone } = req.body;
@@ -27,9 +28,8 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-    const { username, password } = req.body;
-    const user = await User.findOne({ username: username });
-    console.log(user);
+    const { password,email } = req.body;
+    const user = await User.findOne({ email:email });
     if (!user) {
       return res.status(401).json({ error: "Authentication failed" });
     }
@@ -39,7 +39,7 @@ router.post("/login", async (req, res) => {
     }
     const details = user.toObject();
     delete details.password;
-    const token = jwt.createToken(details);
+    const token = jwt(details);
     res.status(200).json({ token });
   } catch (error) {
     console.log(error);
