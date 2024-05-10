@@ -10,6 +10,7 @@ router.post("/register", async (req, res) => {
     const { username, password, fullName, email, phone } = req.body;
     console.log(req.body);
     const hashedPassword = await bcrypt.hash(password, 10);
+   
     const user = new User({
       username: username,
       password: hashedPassword,
@@ -40,7 +41,7 @@ router.post("/login", async (req, res) => {
     const details = user.toObject();
     delete details.password;
     const token = jwt(details);
-    res.status(200).json({ token });
+    res.status(200).json({ token:token,user:details });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Login failed" });

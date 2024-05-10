@@ -20,7 +20,7 @@ if (process.env.NODE_ENV !== "production") {
 //movie booking
 router.post("/bookMovie", verifyToken, async (req, res) => {
   try {
-    const { movieId, bookingTime, noOfTickets, seatsChoosen, price } = req.body;
+    const { movieId, bookingTime, noOfTickets, bookedSeats, price,showId } = req.body;
     const decoded = jswt.verify(req.body.token, process.env.JWT_SECRET);
     const user = await User.findOne({ username: decoded.user.username });
     console.log(decoded);
@@ -36,15 +36,28 @@ router.post("/bookMovie", verifyToken, async (req, res) => {
       movie: movie._id,
       price: price,
       noOfTickets: noOfTickets,
-      bookedSeats: seatsChoosen,
+      bookedSeats: bookedSeats,
     });
     await booking.save();
-    const filter = { movieId: movieId };
-    const update = { $set: { "shows.$[elem].seats": seatsChoosen } };
+    const filter = { _id: showId };
+    const update = { $set: { "shows.$[elem].seats": bookedSeats } };
+    //push the seats into the arry
+
+    
     const options = { arrayFilters: [{ "elem.time": bookingTime }] };
 
-    await ShowTimeModel.findOneAndUpdate(filter, update, options);
-
+    const show = await ShowTimeModel.findOne({_id: showId});
+    console.log(show)
+    show.shows.map((s)=>{
+      console.log(s.time,bookingTime,s.time == bookingTime)
+      if(s.time == bookingTime){
+        s.seats=[...s.seats,...bookedSeats]
+        console.log(s.seats,"--->SEATS")
+      }
+    })
+    show.markModified('shows');
+    await show.save()
+    console.log(show)
     user.bookings.push(booking._id);
     user.save();
     res

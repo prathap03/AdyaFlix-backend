@@ -30,7 +30,13 @@ app.use("/user",userRouter);
 app.use("/booking",bookingRouter);
 app.use("/movie",movieRouter);
 
-app.listen(8000,()=>{
+var port=8000;
+
+if(process.env.NODE_ENV === 'production'){
+    port=10000
+}
+
+app.listen(port,()=>{
     try{
         mongoose.connect(process.env.MONGODB_URI);
         mongoose.connection.on("connected",()=>{
