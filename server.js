@@ -20,7 +20,7 @@ if(process.env.NODE_ENV !== "production"){
     ));
 }else{
     app.use(cors(
-        {origin:"https://adya-flix.vercel.app/"}
+        {origin:"https://adya-flix.vercel.app"}
     ))
 }
 
